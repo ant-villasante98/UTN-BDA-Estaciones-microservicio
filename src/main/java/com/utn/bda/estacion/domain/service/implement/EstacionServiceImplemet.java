@@ -52,4 +52,31 @@ public class EstacionServiceImplemet implements EstacionService {
         estacion.setLongitud(longitud);
         this.estacionRepository.save(estacion);
     }
+
+    @Override
+    public Estacion consultarEstacionMasCercana(double latitud, double longitud) {
+        List<Estacion> estaciones = estacionRepository.findAll(); // Obtén todas las estaciones
+
+        Estacion estacionMasCercana = null;
+        double distanciaMinima = Double.MAX_VALUE;
+
+        for (Estacion estacion : estaciones) {
+            double distancia = calcularDistancia(latitud, longitud, estacion.getLatitud(), estacion.getLongitud());
+            if (distancia < distanciaMinima) {
+                distanciaMinima = distancia;
+                estacionMasCercana = estacion;
+            }
+        }
+
+        return estacionMasCercana;
+    }
+
+    private double calcularDistancia(double latitud1, double longitud1, double latitud2, double longitud2) {
+// Aquí debes implementar el cálculo de la distancia entre dos coordenadas geográficas.
+// Puedes utilizar la fórmula de la distancia euclidiana para calcular la distancia.
+// Ten en cuenta que esta fórmula es una simplificación y no es 100% precisa, pero es suficiente para este ejemplo.
+        double latitudDiferencia = latitud1 - latitud2;
+        double longitudDiferencia = longitud1 - longitud2;
+        return Math.sqrt(latitudDiferencia * latitudDiferencia + longitudDiferencia * longitudDiferencia);
+    }
 }

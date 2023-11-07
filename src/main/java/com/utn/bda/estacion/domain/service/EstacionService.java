@@ -29,4 +29,6 @@ public interface EstacionService {
             Float latitud,
             Float longitud
     );
+
+    Estacion consultarEstacionMasCercana(double latitud, double longitud);
 }

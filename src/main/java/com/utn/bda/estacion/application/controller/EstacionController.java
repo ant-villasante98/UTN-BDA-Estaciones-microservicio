@@ -39,6 +39,13 @@ public class EstacionController {
 
     }
 
+    @GetMapping("/estacion-mas-cercana")
+    public Estacion consultarEstacionMasCercana(
+            @RequestParam("latitud") double latitud,
+            @RequestParam("longitud") double longitud
+    ) {
+        return estacionService.consultarEstacionMasCercana(latitud, longitud);
+    }
 
 
 }
