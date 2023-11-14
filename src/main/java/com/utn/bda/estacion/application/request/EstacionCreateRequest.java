@@ -1,4 +1,4 @@
-package com.utn.bda.estacion.application.resquest;
+package com.utn.bda.estacion.application.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

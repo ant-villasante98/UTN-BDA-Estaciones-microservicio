@@ -1,9 +1,8 @@
 package com.utn.bda.estacion.application.controller;
 
-import com.utn.bda.estacion.application.resquest.EstacionCreateRequest;
+import com.utn.bda.estacion.application.request.EstacionCreateRequest;
 import com.utn.bda.estacion.domain.model.Estacion;
 import com.utn.bda.estacion.domain.service.EstacionService;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,7 @@ public class EstacionController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAll(){
+    public ResponseEntity<List<Estacion>> getAll(){
         List<Estacion> estacionList = this.estacionService.findAll();
 
         return new ResponseEntity<>(estacionList, HttpStatus.OK);
@@ -29,23 +28,24 @@ public class EstacionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable Integer id){
+    public ResponseEntity<Estacion> getById(@PathVariable Integer id){
         try {
             Estacion estacion = this.estacionService.findById(id).orElseThrow();
             return new ResponseEntity<>(estacion,HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>("no se pudo encontrar",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
 
     @GetMapping("/estacion-mas-cercana")
-    public Estacion consultarEstacionMasCercana(
+    public ResponseEntity<Estacion> consultarEstacionMasCercana(
             @RequestParam("latitud") double latitud,
             @RequestParam("longitud") double longitud
     ) {
-        return estacionService.consultarEstacionMasCercana(latitud, longitud);
+        Estacion estacion = estacionService.consultarEstacionMasCercana(latitud, longitud);
+        return new ResponseEntity<>(estacion,HttpStatus.OK);
     }
 
     @PostMapping
